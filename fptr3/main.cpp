@@ -16,21 +16,24 @@ void null();
 
 int main()
 {
-    fptr whatToDo[128];
-    //srand(time(NULL));
+    fptr whatToDo[300];
+//    srand(time(NULL));
     for(int i = 0; i < 128; ++i)
         whatToDo[i] = null;
+    initscr();
     whatToDo['W'] = whatToDo['w'] = up;
     whatToDo['S'] = whatToDo['s'] = down;
-    whatToDo['A'] = whatToDo['a'] = right;
-    whatToDo['D'] = whatToDo['d'] = left;
+    whatToDo['A'] = whatToDo['a'] = left;
+    whatToDo['D'] = whatToDo['d'] = right;
     whatToDo['Q'] = whatToDo['q'] = quit;
-    while(getch())
+    while(1)
     {
-        char w = getchar();
+        int w = getchar();
+        //ungetch(w);
+//        char w = getchar();
 //        (whatToDo[getchar()])();
         (whatToDo[w])();
-        getch();
+        refresh();
     }
 
     return 0;
@@ -39,22 +42,22 @@ int main()
 
 void left()
 {
-    cout<<"Left"<<endl;
+    cout<<"Left"<<"";
 }
 
 void right()
 {
-    cout<<"Right"<<endl;
+    cout<<"Right"<<"";
 }
 
 void up()
 {
-    cout<<"Up"<<endl;
+    cout<<"Up"<<"";
 }
 
 void down()
 {
-    cout<<"Down"<<endl;
+    cout<<"Down"<<"";
 }
 
 void quit()
@@ -64,6 +67,6 @@ void quit()
 
 void null()
 {
-    cout<<" "<<endl;
+    cout<<"";
 }
 

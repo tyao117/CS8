@@ -18,6 +18,8 @@ linkedList::~linkedList()
         delete bye;
     }
     anchor->nextNode() = NULL;
+    delete anchor;
+    anchor->NULL;
     qty = 0;
 }
 
@@ -78,15 +80,15 @@ void linkedList::erase(baseNode *whom)// whom = object
 //    delete bye;
 //    return;
 
-//    //working erase
-//    baseNode *ptr = anchor, *bye = anchor->nextNode();
-//    qty--;
-//    for(; bye && bye->getFirst() != whom->getFirst(); ptr = ptr->nextNode(), bye = bye->nextNode() );
-//    if(!bye || bye->getFirst() != whom->getFirst())
-//        throw NOT_FOUND;
-//    ptr->nextNode() = bye->nextNode();
-//    delete bye;
-//    return;
+    //working erase
+    baseNode *ptr = anchor, *bye = anchor->nextNode();
+    qty--;
+    for(; bye && bye->getFirst() != whom->getFirst(); ptr = ptr->nextNode(), bye = bye->nextNode() );
+    if(!bye || bye->getFirst() != whom->getFirst())
+        throw NOT_FOUND;
+    ptr->nextNode() = bye->nextNode();
+    delete bye;
+    return;
 }
 
 void linkedList::eraseHead()
@@ -96,6 +98,7 @@ void linkedList::eraseHead()
     ptr->nextNode() = bye->nextNode();
     bye->nextNode() = NULL;
     delete bye;
+    bye = NULL;
     return;
 }
 
