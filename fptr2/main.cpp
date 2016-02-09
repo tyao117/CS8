@@ -4,6 +4,9 @@
 
 using namespace std;
 
+//This program shows pointers to functions
+//It goes on an infinite loop until 'Q' or 'q' is called
+
 typedef void (*fptr)();
 
 void left();
