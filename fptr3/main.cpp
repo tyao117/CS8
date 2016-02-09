@@ -17,7 +17,7 @@ void null();
 int main()
 {
     fptr whatToDo[128];
-    srand(time(NULL));
+    //srand(time(NULL));
     for(int i = 0; i < 128; ++i)
         whatToDo[i] = null;
     whatToDo['W'] = whatToDo['w'] = up;
@@ -25,8 +25,13 @@ int main()
     whatToDo['A'] = whatToDo['a'] = right;
     whatToDo['D'] = whatToDo['d'] = left;
     whatToDo['Q'] = whatToDo['q'] = quit;
-    while(getch() == '\033')
-        (whatToDo[getch()])();
+    while(getch())
+    {
+        char w = getchar();
+//        (whatToDo[getchar()])();
+        (whatToDo[w])();
+        getch();
+    }
 
     return 0;
 }
