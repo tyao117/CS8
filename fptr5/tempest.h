@@ -21,6 +21,7 @@ class tempest
         void me();
         void me2();
         void you();
+
     private:
         string myName;
         tempest *other;

@@ -28,8 +28,8 @@ void tempest::me()
 
 void tempest::me2()
 {
-   this->*otherP();
-   (*other).*otherP();
+   (this->*otherP)();
+   (*other.*otherP)();
 }
 void tempest::you()
 {
