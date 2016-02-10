@@ -8,13 +8,13 @@
 #include <string>
 #include <typeinfo>
 
-//using std::cin;
-//using std::cout;
-//using std::ostream;
-//using std::istream;
-//using std::endl;
-//using std::string;
-using namespace std;
+using std::cin;
+using std::cout;
+using std::ostream;
+using std::istream;
+using std::endl;
+using std::string;
+
 
 enum QUEUE_ERRORS {QUEUE_EMPTY, QUEUE_FULL, BAD_QUEUE_SIZE};
 
@@ -41,14 +41,14 @@ class queue
 
         template<typename Y>
         friend
-        ostream& operator<<(ostream &out, const queue<Y>& q);
+        ostream& operator<< (ostream &out, const queue<Y>& q);
 
         template<typename Y>
         friend
-        istream& operator>>(istream &in, queue<Y>& q);
+        istream& operator>> (istream &in, queue<Y>& q);
 
-        friend
-        istream& operator>>(istream &in, queue<string>& q);
+//        friend
+//        istream& operator>> (istream &in, queue<string>& q);
 
     private:
         T* que;
@@ -190,10 +190,10 @@ void queue<T>::nukem()
 template<typename Y>
 ostream& operator<<(ostream &out, const queue<Y>& q)
 {
-    string eol(out == cout ? ", " : "\n");
+    string eol(&out == &cout ? ", " : "\n");
     for(size_t i = q.head; i < q.tail; ++i, i%= q.max_qty)
         out<<q.que[i]<<eol;
-    if(out == cout)
+    if(&out == &cout)
         out<<"\b\b ";
     return out;
 }
@@ -207,12 +207,12 @@ istream& operator>>(istream &in, queue<Y>& q)
     return in;
 }
 
-istream& operator>>(istream &in, queue<string>& q)
-{
-        string input;
-        while(getline(in,input))
-            q << input;
-        return in;
-}
+//istream& operator>>(istream &in, queue<string>& q)
+//{
+//        string input;
+//        while(getline(in,input))
+//            q << input;
+//        return in;
+//}
 
 #endif // QUEUE_H

@@ -1,5 +1,6 @@
 #include "driver.h"
 
+
 char menu(string title[])
 {
    char ans;
@@ -10,10 +11,9 @@ char menu(string title[])
    return ans;
 }
 
-
-void perform(char ans, int &que, queue<char> &one, queue<char> &two)
+void perform(char ans, int &que, queue<string> &one, queue<string> &two)
 {
-   char item;
+   string item;
    bool repeat;
    char filename[80];
    ifstream in;
@@ -93,8 +93,7 @@ void perform(char ans, int &que, queue<char> &one, queue<char> &two)
     system("cls");
 }
 
-
-void loadfile(queue<char> &one,char *filename)
+void loadfile(queue<string> &one, char *filename)
 {
    ifstream in;
    in.open(filename);
@@ -114,8 +113,7 @@ void help()
      exit(0);
 }
 
-
-void checkArgs(int argc, char *argv[],queue<char> &one,queue<char> &two, int &queue)
+void checkArgs(int argc, char *argv[], queue<string> &one, queue<string> &two, int &queue)
 {
      char *filename, *queueNum;
      if(argc < 2) return;

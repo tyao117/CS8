@@ -7,14 +7,17 @@
 #include <string>
 #include <fstream>
 #include <cstring>
-#include <string>
+
 
 using namespace std;
 
 char menu(string title[]);
-void perform(char ans, int &list, queue<char> &one, queue<char> &two);
-void loadfile(queue<char> &one,char *filename);
+
+void perform(char ans, int &list, queue<string> &one, queue<string> &two);
+void loadfile(queue<string> &one,char *filename); // insert data from file to a queue
 void help();
-void checkArgs(int hi, char *bye[], queue<char> &one, queue<char> &two, int &list);
+void checkArgs(int argc, char *argv[],queue<string> &one,queue<string> &two, int &list);
+
+
 
 #endif // DRIVER_H
