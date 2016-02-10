@@ -8,12 +8,12 @@
 #include <string>
 #include <typeinfo>
 
-using std::cin;
-using std::cout;
-using std::ostream;
-using std::istream;
-using std::endl;
-using std::string;
+//using std::cin;
+//using std::cout;
+//using std::ostream;
+//using std::istream;
+//using std::endl;
+//using std::string;
 using namespace std;
 
 enum QUEUE_ERRORS {QUEUE_EMPTY, QUEUE_FULL, BAD_QUEUE_SIZE};
@@ -48,7 +48,7 @@ class queue
         istream& operator>>(istream &in, queue<Y>& q);
 
         friend
-        istream& operator>>(istream &in, string q);
+        istream& operator>>(istream &in, queue<string>& q);
 
     private:
         T* que;
@@ -196,29 +196,18 @@ ostream& operator<<(ostream &out, const queue<Y>& q)
     if(out == cout)
         out<<"\b\b ";
     return out;
-
 }
 
 template<typename Y>
 istream& operator>>(istream &in, queue<Y>& q)
 {
-//    string input;
-//    Y inputOther;
-//    if(string(typeid(Y).name()) == "Ss")
-//        while(getline(in,input))
-//            q << input;
-//    else
-//        while(in>>inputOther)
-//            q << inputOther;
-//    return in;
     Y inputOther;
     while (in>>inputOther)
         q << inputOther;
     return in;
-
 }
 
-istream& operator>>(istream &in, string& q)
+istream& operator>>(istream &in, queue<string>& q)
 {
         string input;
         while(getline(in,input))

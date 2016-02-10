@@ -7,6 +7,6 @@ SOURCES += main.cpp \
     driver.cpp
 
 HEADERS += \
-    driver.h \
-    arrayQueue.h
+    arrayQueue.h \
+    driver.h
 

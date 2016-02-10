@@ -11,8 +11,6 @@ char menu(string title[])
 }
 
 
-
-
 void perform(char ans, int &que, queue<char> &one, queue<char> &two)
 {
    char item;

@@ -1,13 +1,14 @@
 #include <iostream>
 #include <string>
 #include "driver.h"
+#include "arrayQueue.h"
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
   queue<char> one, two;
-  char ans;
+  char ans1;
   int list = 1;
   string title[13] = {
       " Please make a selection: ",
@@ -31,7 +32,7 @@ int main(int argc, char *argv[])
      exit(e);
   }*/
 
-    while(toupper(ans = menu(title)) != 'Q')
-       perform(ans, list,  one, two);
+    while(toupper(ans1 = menu(title)) != 'Q')
+       perform(ans1, list,  one, two);
   return 0;
 }
