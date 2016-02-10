@@ -47,8 +47,9 @@ class queue
         friend
         istream& operator>> (istream &in, queue<Y>& q);
 
-//        friend
-//        istream& operator>> (istream &in, queue<string>& q);
+        template<typename Y>
+        friend
+        istream& operator>> (istream &in, queue<string>& q);
 
     private:
         T* que;
@@ -57,6 +58,7 @@ class queue
         void copy(const queue<T>& other);
         void nukem();
 };
+
 
 template<typename T>
 queue<T>::queue(size_t s )
@@ -207,12 +209,13 @@ istream& operator>>(istream &in, queue<Y>& q)
     return in;
 }
 
-//istream& operator>>(istream &in, queue<string>& q)
-//{
-//        string input;
-//        while(getline(in,input))
-//            q << input;
-//        return in;
-//}
+template<typename Y>
+istream& operator>>(istream &in, queue<string>& q)
+{
+        string input;
+        while(getline(in,input))
+            q << input;
+        return in;
+}
 
 #endif // QUEUE_H
