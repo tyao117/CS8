@@ -20,7 +20,7 @@ int main()
 //    srand(time(NULL));
     for(int i = 0; i < 128; ++i)
         whatToDo[i] = null;
-    initscr();
+    initscr();//enable getchar functions
     whatToDo['W'] = whatToDo['w'] = up;
     whatToDo['S'] = whatToDo['s'] = down;
     whatToDo['A'] = whatToDo['a'] = left;

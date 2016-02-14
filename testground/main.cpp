@@ -1,24 +1,24 @@
 #include <iostream>
 #include <string>
+#include <sstream>
 
 using std::cout;
 using std::endl;
+using std::string;
+using std::cin;
+using std::stringstream;
 
 int main(int argc, char *argv[])
 {
-    int array[5];
-    for (int i = 0; i < 8; ++i)
+    stringstream ss;
+    string test= "I'm going to using be string stream";
+    ss<<test;
+    while (!ss.eof())
     {
-        if (i>5)
-        array[i%5] = i;
-        else
-        array[i] = i;
-        cout<<"array"<<i<<" "<<array[i]<<endl;
+        string test;
+        if (isalpha(ss.peek()))
+        ss>>test;
+        cout<<test<<endl;
     }
-    array [4] = NULL;
-    for (int i = 0; i < 5; ++i)
-    {
-    cout<<*array+i<<endl;
-    }
-
+    cout<<endl;
 }
