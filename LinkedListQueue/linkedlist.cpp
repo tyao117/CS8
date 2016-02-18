@@ -82,7 +82,7 @@ void linkedList::erase(baseNode *whom)// whom = object
 
 void linkedList::eraseTail()
 {
-    baseNode *ptr = anchor; *bye = anchor->nextNode();
+    baseNode *ptr = anchor, *bye = anchor->nextNode();
     for (; bye->nextNode(); ptr = ptr->nextNode(), bye = bye->nextNode());
     qty--;
     ptr->nextNode() = NULL;
