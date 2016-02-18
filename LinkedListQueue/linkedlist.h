@@ -22,9 +22,10 @@ protected:
     size_t qty, maxQty;
 
     void insertTail(baseNode *&whom);       //inserts at the end of the list
-    void insertHead(baseNode *&whom);   //inserts at the top of the list
+    void insertHead(baseNode *&whom);       //inserts at the top of the list
 
     void erase(baseNode *whom);
+    void eraseTail();
     void eraseHead();
 
 private:
