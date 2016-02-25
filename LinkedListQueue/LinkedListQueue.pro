@@ -5,9 +5,11 @@ CONFIG -= qt
 
 SOURCES += main.cpp \
     basenode.cpp \
-    linkedlist.cpp
+    linkedlist.cpp \
+    driver.cpp
 
 HEADERS += \
     basenode.h \
     linkedlist.h \
-    linkedlistqueue.h
+    linkedlistqueue.h \
+    driver.h
