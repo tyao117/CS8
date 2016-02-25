@@ -58,7 +58,6 @@ template<typename T>
 LinkedListStack<T>::~LinkedListStack()
 {
    nukem();
-   delete anchor;
 }
 
 template<typename T>
@@ -88,7 +87,7 @@ template<typename T>
 LinkedListStack<T>& LinkedListStack<T>::operator >>(T &d)       //Pop chainable
 {
     d = pop();
-    return d;
+    return *this;
 }
 
 template<typename T>
@@ -157,7 +156,7 @@ size_t LinkedListStack<T>::max_size()
 template<typename T>
 void  LinkedListStack<T>::nukem()                //clears the stack
 {
-    baseNode *ptr = anchor, *bye;
+    baseNode *ptr = anchor, *bye = NULL;
     while(ptr->nextNode())
     {
         bye = ptr->nextNode();
@@ -193,13 +192,10 @@ ostream& operator<<(ostream &out, const LinkedListStack<Y> &stack)
 template<typename Y>
 istream& operator>>(istream &in, LinkedListStack<Y> &stack)
 {
-//    node<Y> input;
-//    while(in>>input)
-//       stack.push(input.getData());
 
     baseNode ptr;
     while(in>>ptr)
-        stack.push(ptr.getFirst());
+        stack.push(*(Y*)ptr.getFirst());
     return in;
 }
 
