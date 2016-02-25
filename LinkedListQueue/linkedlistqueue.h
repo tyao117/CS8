@@ -21,8 +21,8 @@ public:
     LinkedListQueue(const LinkedListQueue<T>&other);
     LinkedListQueue<T>& operator = (const LinkedListQueue<T> &other);
 
-    LinkedListQueue<T>& operator <<(const T& d); //Push chainable
-    LinkedListQueue<T>& operator >>(T &d);       //Pop chainable
+    LinkedListQueue<T>& operator<<(const T& d); //Push chainable
+    LinkedListQueue<T>& operator>>(T &d);       //Pop chainable
 
     T dequeue();                      //pops out the first element
     T top();                      //looks at the top element
@@ -35,11 +35,11 @@ public:
 
     template<typename Y>
     friend
-    ostream& operator<<(ostream &out, const LinkedListQueue<Y> &stack);
+    ostream& operator<<(ostream &out, const LinkedListQueue<Y> &queue);
 
     template<typename Y>
     friend
-    istream& operator>>(istream &in, LinkedListQueue<Y> &stack);
+    istream& operator>>(istream &in, LinkedListQueue<Y> &queue);
 
 private:
     void copy(const LinkedListQueue<T>& other);
@@ -57,7 +57,6 @@ template<typename T>
 LinkedListQueue<T>::~LinkedListQueue()
 {
    nukem();
-   delete anchor;
 }
 
 template<typename T>
@@ -77,24 +76,24 @@ LinkedListQueue<T>& LinkedListQueue<T>::operator = (const LinkedListQueue<T> &ot
     return *this;
 }
 template<typename T>
-LinkedListQueue<T>& LinkedListQueue<T>::operator <<(const T& d) //Push chainable
+LinkedListQueue<T>& LinkedListQueue<T>::operator<<(const T& d) //Push chainable
 {
    push(d);
    return *this;
 }
 
 template<typename T>
-LinkedListQueue<T>& LinkedListQueue<T>::operator >>(T &d)       //Pop chainable
+LinkedListQueue<T>& LinkedListQueue<T>::operator>>(T &d)       //Pop chainable
 {
-    d = pop();
-    return d;
+    d = dequeue();
+    return *this;
 }
 
 template<typename T>
 T LinkedListQueue<T>::dequeue()                      //pops out the first element
 {
     if (empty())
-        throw STACK_EMPTY;
+        throw QUEUE_EMPTY;
     baseNode *ptr = anchor->nextNode();
     T data = *(T*)(ptr->getFirst());
     linkedList::erase(ptr);
@@ -105,7 +104,7 @@ template<typename T>
 T LinkedListQueue<T>::top()                     //looks at the top element
 {
     if (empty())
-        throw STACK_EMPTY;
+        throw QUEUE_EMPTY;
     baseNode *ptr = anchor->nextNode();
     //for (;ptr->nextNode(); ptr = ptr->nextNode());
     T data = *(T*)(ptr->getFirst());
@@ -116,7 +115,7 @@ template<typename T>
 void LinkedListQueue<T>::push(const T& d)        //push elements into the array
 {
     if (!(qty-maxQty))
-        throw STACK_EMPTY;
+        throw QUEUE_EMPTY;
     baseNode* ptr = new baseNode();
     ptr->setFirst(new T(d));
     linkedList::insertTail(ptr);
@@ -176,9 +175,9 @@ void LinkedListQueue<T>::copy(const LinkedListQueue<T>& other)
 
 //friends
 template<typename Y>
-ostream& operator<<(ostream &out, const LinkedListQueue<Y> &stack)
+ostream& operator <<(ostream &out, const LinkedListQueue<Y> &queue)
 {
-    baseNode *ptr = stack.anchor->nextNode();
+    baseNode *ptr = queue.anchor->nextNode();
     while(ptr)
     {
         out<<*(Y*)(ptr->getFirst())<<std::endl;
@@ -188,15 +187,11 @@ ostream& operator<<(ostream &out, const LinkedListQueue<Y> &stack)
 }
 
 template<typename Y>
-istream& operator>>(istream &in, LinkedListQueue<Y> &stack)
+istream& operator >>(istream &in, LinkedListQueue<Y> &queue)
 {
-//    node<Y> input;
-//    while(in>>input)
-//       stack.push(input.getData());
-
     baseNode ptr;
     while(in>>ptr)
-        stack.push(ptr.getFirst());
+        queue.push(*(Y*)ptr.getFirst());
     return in;
 }
 #endif // LinkedListQueue_H
