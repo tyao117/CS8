@@ -1,19 +1,37 @@
 #include <iostream>
-//#include "LinkedListQueue.h"
 #include <string>
+#include "driver.h"
 
 using namespace std;
 
-string getLine();
-void perform(string line);
-string trimAndNormalize(string line);
-
-int main()
+int main(int argc, char *argv[])
 {
-   string line;
-   while((line = getLine()) != "")
-       perform(line);
-   return 0;
+  LinkedListQueue<string> one, two;
+  char ans;
+  int list = 1;
+  string title[13] = {
+      " Please make a selection: ",
+      "  S : Select a queue",
+      "  R : Read from a file",
+      "  W : Write to a file",
+      "  P : Print the list",
+      "  + : Enqueue an item",
+      "  - : Dequeue an item",
+      "  M : Merge List 2 into List 1",
+      "  Q : Quit",
+      "Your selection: "};
+  system("cls");
+  try
+  {
+    checkArgs(argc, argv, one, two, list);
+  }
+  catch(int e)
+  {
+     cout<<"Error "<<e<<". Program terminating"<<endl;
+     exit(e);
+  }
+    while(toupper(ans = menu(title)) != 'Q')
+       perform(ans, list, one, two);
+  return 0;
 }
-
 
