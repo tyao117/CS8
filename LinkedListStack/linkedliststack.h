@@ -192,7 +192,6 @@ ostream& operator<<(ostream &out, const LinkedListStack<Y> &stack)
 template<typename Y>
 istream& operator>>(istream &in, LinkedListStack<Y> &stack)
 {
-
     baseNode ptr;
     while(in>>ptr)
         stack.push(*(Y*)ptr.getFirst());
