@@ -176,8 +176,11 @@ void LinkedListQueue<T>::copy(const LinkedListQueue<T>& other)
 {
     qty = other.qty;
     maxQty = other.maxQty;
-    for(baseNode *ptr = other.anchor; ptr; ptr = ptr->nextNode())
-        push(ptr->getData());
+
+    for(baseNode *ptr = other.anchor->nextNode(); ptr; ptr = ptr->nextNode())
+    {
+        push(*(T*)(ptr->getData()));
+    }
  }
 
 //friends
