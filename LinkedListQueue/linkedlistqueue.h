@@ -7,10 +7,13 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+
 enum QUEUE_ERRORS {QUEUE_EMPTY,QUEUE_FULL};
 
 using std::istream;
 using std::ostream;
+using std::string;
+
 
 template<typename T>
 class LinkedListQueue : public linkedList
@@ -40,6 +43,10 @@ public:
     template<typename Y>
     friend
     istream& operator>>(istream &in, LinkedListQueue<Y> &queue);
+
+    template<typename Y>
+    friend
+    istream& operator>>(istream &in, LinkedListQueue<string> &queue);
 
 private:
     void copy(const LinkedListQueue<T>& other);
@@ -95,7 +102,7 @@ T LinkedListQueue<T>::dequeue()                      //pops out the first elemen
     if (empty())
         throw QUEUE_EMPTY;
     baseNode *ptr = anchor->nextNode();
-    T data = *(T*)(ptr->getFirst());
+    T data = *(T*)(ptr->getData());
     linkedList::erase(ptr);
     return data;
 }
@@ -107,7 +114,7 @@ T LinkedListQueue<T>::top()                     //looks at the top element
         throw QUEUE_EMPTY;
     baseNode *ptr = anchor->nextNode();
     //for (;ptr->nextNode(); ptr = ptr->nextNode());
-    T data = *(T*)(ptr->getFirst());
+    T data = *(T*)(ptr->getData());
     return data;
 }
 
@@ -117,7 +124,7 @@ void LinkedListQueue<T>::push(const T& d)        //push elements into the array
     if (!(qty-maxQty))
         throw QUEUE_EMPTY;
     baseNode* ptr = new baseNode();
-    ptr->setFirst(new T(d));
+    ptr->setData(new T(d));
     linkedList::insertTail(ptr);
 }
 
@@ -170,7 +177,7 @@ void LinkedListQueue<T>::copy(const LinkedListQueue<T>& other)
     qty = other.qty;
     maxQty = other.maxQty;
     for(baseNode *ptr = other.anchor; ptr; ptr = ptr->nextNode())
-        push(ptr->getFirst());
+        push(ptr->getData());
  }
 
 //friends
@@ -180,7 +187,7 @@ ostream& operator <<(ostream &out, const LinkedListQueue<Y> &queue)
     baseNode *ptr = queue.anchor->nextNode();
     while(ptr)
     {
-        out<<*(Y*)(ptr->getFirst())<<std::endl;
+        out<<*(Y*)(ptr->getData())<<std::endl;
         ptr = ptr->nextNode();
     }
     return out;
@@ -191,7 +198,19 @@ istream& operator >>(istream &in, LinkedListQueue<Y> &queue)
 {
     baseNode ptr;
     while(in>>ptr)
-        queue.push(*(Y*)ptr.getFirst());
+        queue.push(*(Y*)ptr.getData());
+    return in;
+}
+
+template<typename Y>
+istream& operator >>(istream &in, LinkedListQueue<string> &queue)
+{
+    using namespace std;
+    baseNode ptr;
+    string input;
+    getline(in,input);
+    while(in>>ptr)
+        queue.push(*(Y*)ptr.getData());
     return in;
 }
 #endif // LinkedListQueue_H

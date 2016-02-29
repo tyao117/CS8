@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
       "  + : Enqueue an item",
       "  - : Dequeue an item",
       "  M : Merge List 2 into List 1",
+      "  C : Copy List 2 into List 1",
       "  Q : Quit",
       "Your selection: "};
   system("cls");

@@ -45,7 +45,7 @@ void linkedList::insertTail(baseNode*& whom)
 {
     baseNode *ptr = anchor;
     qty++;
-    for(; ptr->nextNode() && ptr->nextNode()->getFirst() != whom->getFirst(); ptr = ptr->nextNode());
+    for(; ptr->nextNode() && ptr->nextNode()->getData() != whom->getData(); ptr = ptr->nextNode());
     if(!ptr)
     {
         ptr->nextNode() = whom;
@@ -69,8 +69,8 @@ void linkedList::erase(baseNode *whom)// whom = object
 {
     //working erase
     baseNode *ptr = anchor, *bye = anchor->nextNode();
-    for(; bye && bye->getFirst() != whom->getFirst(); ptr = ptr->nextNode(), bye = bye->nextNode() );
-    if(!bye || bye->getFirst() != whom->getFirst())
+    for(; bye && bye->getData() != whom->getData(); ptr = ptr->nextNode(), bye = bye->nextNode() );
+    if(!bye || bye->getData() != whom->getData())
         throw NOT_FOUND;
     qty--;
     ptr->nextNode() = bye->nextNode();

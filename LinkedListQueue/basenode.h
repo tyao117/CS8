@@ -19,8 +19,9 @@ public:
 
     //Functions
     baseNode*& nextNode();
-    void *getFirst() const;
-    void setFirst(void *ptr);
+    void *getData();
+
+    void setData(void *ptr);
 
     //Friend Functions
     friend
@@ -41,7 +42,7 @@ public:
     istream& operator>>(istream &in, baseNode &y);
 
 protected:
-    void *first;
+    void *data;
     baseNode *next;
 
     private:

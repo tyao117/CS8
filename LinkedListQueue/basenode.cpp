@@ -3,12 +3,12 @@
 
 baseNode::baseNode()
 {
-    first = next = NULL;
+    data = next = NULL;
 }
 
 baseNode::~baseNode()
 {
-    first = next = NULL;
+    data = next = NULL;
 }
 
 baseNode*& baseNode::nextNode()
@@ -16,31 +16,31 @@ baseNode*& baseNode::nextNode()
     return next;
 }
 
-void* baseNode::getFirst() const
+void* baseNode::getData()
 {
-    return first;
+    return data;
 }
 
-void baseNode::setFirst(void *ptr)
+void baseNode::setData(void *ptr)
 {
-    first = ptr;
+    data = ptr;
 }
 
 ostream &operator<<(ostream &out, const baseNode &y)
 {
-    out<<y.first<<" ";
+    out<<y.data<<" ";
     return out;
 }
 
 istream &operator>>(istream &in, baseNode &y)
 {
-    in>>y.first;
+    in>>y.data;
     return in;
 }
 
 baseNode& baseNode::operator=(const baseNode &other)
 {
-    first = other.first;
+    data = other.data;
     next = other.next;
     return *this;
 }

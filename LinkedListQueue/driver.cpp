@@ -87,6 +87,11 @@ void perform(char ans, int &que, LinkedListQueue<string> &one, LinkedListQueue<s
        cout<<"The contents of queue one are: "<<endl<<one<<endl<<endl;
        cout<<"The contents of queue two are: "<<endl<<two<<endl<<endl;
        break;
+   case 'C' : cout<<"One is a copy of two.";
+       one = two;
+       cout<<"The contents of queue one are: "<<endl<<one<<endl<<endl;
+       cout<<"The contents of queue two are: "<<endl<<two<<endl<<endl;
+       break;
    case '-' :
        if(que == 1) one >> item;
        else two >> item;
