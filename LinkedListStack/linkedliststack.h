@@ -158,10 +158,10 @@ size_t LinkedListStack<T>::max_size()
 template<typename T>
 void  LinkedListStack<T>::nukem()                //clears the stack
 {
-    baseNode *ptr = anchor, *bye = NULL;
-    while(ptr->nextNode())
+    baseNode *ptr = anchor->nextNode(), *bye = NULL;
+    while(ptr)
     {
-        bye = ptr->nextNode();
+        bye = ptr;
         bye->setData(new T());
         ptr = ptr->nextNode();
         delete bye;

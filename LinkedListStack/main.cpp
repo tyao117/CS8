@@ -1,5 +1,5 @@
 #include <iostream>
-#include "linkedliststack.h"
+#include "LinkedListStack.h"
 #include <string>
 
 using namespace std;
@@ -31,8 +31,6 @@ void perform(string line)
     normalized = trimAndNormalize(line);
     for(unsigned int i = 0; i < normalized.size(); i++)
         stack<<normalized[i];
-    cout<<stack;
-    cout<<"stack size="<<stack.size()<<endl;
     while(!stack.empty())
         reversed += stack.pop();
     cout<<reversed<<endl;

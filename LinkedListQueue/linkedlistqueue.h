@@ -161,7 +161,7 @@ void  LinkedListQueue<T>::nukem()                //clears the stack
     while(ptr->nextNode())
     {
         bye = ptr->nextNode();
-        bye->setData(T());
+        bye->setData(new T());
         ptr = ptr->nextNode();
         delete bye;
     }

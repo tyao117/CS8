@@ -5,15 +5,16 @@ linkedList::linkedList()
     qty = 0;
     maxQty = 500;
 }
+
 linkedList::~linkedList()
 {
 //for loop to go through the list starting the last item qty
 //call the destructor of the node
 //delete the node
-    baseNode *ptr = anchor, *bye = NULL;
-    while(ptr->nextNode())
+    baseNode *ptr = anchor->nextNode(), *bye = NULL;
+    while(ptr)
     {
-        bye = ptr->nextNode();
+        bye = ptr;
         ptr = ptr->nextNode();
         delete bye;
     }
@@ -77,7 +78,7 @@ void linkedList::erase(baseNode *whom)// whom = object
 //    delete bye;
 //    return;
 
-    //working erase
+    //  working erase
     baseNode *ptr = anchor, *bye = anchor->nextNode();
     qty--;
     for(; bye && bye->getData() != whom->getData(); ptr = ptr->nextNode(), bye = bye->nextNode() );
