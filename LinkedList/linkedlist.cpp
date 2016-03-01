@@ -95,7 +95,7 @@ void linkedList::eraseHead()
     baseNode *ptr = anchor, *bye = anchor->nextNode();
     qty--;
     ptr->nextNode() = bye->nextNode();
-    bye->nextNode() = NULL;
+    bye->nextNode() = NULL; //does not hide data!!
     delete bye;
     bye = NULL;
     return;
