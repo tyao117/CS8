@@ -45,7 +45,7 @@ void linkedList::insertTail(baseNode*& whom)
 {
     baseNode *ptr = anchor;
     qty++;
-    for(; ptr->nextNode() && ptr->nextNode()->getFirst() != whom->getFirst(); ptr = ptr->nextNode());
+    for(; ptr->nextNode() && ptr->nextNode()->getData() != whom->getData(); ptr = ptr->nextNode());
     if(!ptr)
     {
         ptr->nextNode() = whom;
@@ -62,7 +62,6 @@ void linkedList::insertHead(baseNode *&whom)
     qty++;
     whom->nextNode() = ptr->nextNode();
     ptr->nextNode() = whom;
-
 }
 
 void linkedList::erase(baseNode *whom)// whom = object
@@ -70,8 +69,8 @@ void linkedList::erase(baseNode *whom)// whom = object
 //    //Original Version
 //    baseNode *ptr = anchor, *bye;
 //    qty--;
-//    for(; ptr->nextNode() && ptr->nextNode()->getFirst() != ((baseNode*)whom)->getFirst(); ptr = ptr->nextNode());
-//    if(!ptr->nextNode() || ptr->nextNode()->getFirst() != whom)
+//    for(; ptr->nextNode() && ptr->nextNode()->getData() != ((baseNode*)whom)->getData(); ptr = ptr->nextNode());
+//    if(!ptr->nextNode() || ptr->nextNode()->getData() != whom)
 //        //throw NOT_FOUND;
 //    bye = ptr->nextNode();
 //    ptr->nextNode() = bye->nextNode();
@@ -81,8 +80,8 @@ void linkedList::erase(baseNode *whom)// whom = object
     //working erase
     baseNode *ptr = anchor, *bye = anchor->nextNode();
     qty--;
-    for(; bye && bye->getFirst() != whom->getFirst(); ptr = ptr->nextNode(), bye = bye->nextNode() );
-    if(!bye || bye->getFirst() != whom->getFirst())
+    for(; bye && bye->getData() != whom->getData(); ptr = ptr->nextNode(), bye = bye->nextNode() );
+    if(!bye || bye->getData() != whom->getData())
         throw NOT_FOUND;
     ptr->nextNode() = bye->nextNode();
     delete bye;

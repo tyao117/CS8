@@ -44,10 +44,6 @@ public:
     friend
     istream& operator>>(istream &in, LinkedListQueue<Y> &queue);
 
-    template<typename Y>
-    friend
-    istream& operator>>(istream &in, LinkedListQueue<string> &queue);
-
 private:
     void copy(const LinkedListQueue<T>& other);
     void nukem();
@@ -69,6 +65,7 @@ LinkedListQueue<T>::~LinkedListQueue()
 template<typename T>
 LinkedListQueue<T>::LinkedListQueue(const LinkedListQueue<T> &other)
 {
+    anchor = new baseNode;
     copy (other);
 }
 
@@ -168,24 +165,24 @@ void  LinkedListQueue<T>::nukem()                //clears the stack
         delete bye;
     }
     anchor->nextNode() = NULL;
+    delete anchor->nextNode();
     qty = 0;
 }
 
 template<typename T>
 void LinkedListQueue<T>::copy(const LinkedListQueue<T>& other)
-{
-    qty = other.qty;
-    maxQty = other.maxQty;
-
+{ 
     for(baseNode *ptr = other.anchor->nextNode(); ptr; ptr = ptr->nextNode())
     {
         push(*(T*)(ptr->getData()));
     }
+    qty = other.qty;
+    maxQty = other.maxQty;
  }
 
 //friends
 template<typename Y>
-ostream& operator <<(ostream &out, const LinkedListQueue<Y> &queue)
+ostream& operator<<(ostream &out, const LinkedListQueue<Y> &queue)
 {
     baseNode *ptr = queue.anchor->nextNode();
     while(ptr)
@@ -197,7 +194,7 @@ ostream& operator <<(ostream &out, const LinkedListQueue<Y> &queue)
 }
 
 template<typename Y>
-istream& operator >>(istream &in, LinkedListQueue<Y> &queue)
+istream& operator>>(istream &in, LinkedListQueue<Y> &queue)
 {
     baseNode ptr;
     while(in>>ptr)
@@ -205,15 +202,5 @@ istream& operator >>(istream &in, LinkedListQueue<Y> &queue)
     return in;
 }
 
-template<typename Y>
-istream& operator >>(istream &in, LinkedListQueue<string> &queue)
-{
-    using namespace std;
-    baseNode ptr;
-    string input;
-    getline(in,input);
-    while(in>>ptr)
-        queue.push(*(Y*)ptr.getData());
-    return in;
-}
+
 #endif // LinkedListQueue_H

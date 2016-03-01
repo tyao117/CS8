@@ -26,16 +26,22 @@ string getLine()
 
 void perform(string line)
 {
-    LinkedListStack<char> LinkedListStack(line.size());
+    LinkedListStack<char> stack(line.size());
     string normalized, reversed;
     normalized = trimAndNormalize(line);
     for(unsigned int i = 0; i < normalized.size(); i++)
-        LinkedListStack<<normalized[i];
-    while(!LinkedListStack.empty())
-        reversed += LinkedListStack.pop();
+        stack<<normalized[i];
+    cout<<stack;
+    cout<<"stack size="<<stack.size()<<endl;
+    LinkedListStack<char> stack2(stack);
+
+    cout<<stack2;
+    while(!stack.empty())
+        reversed += stack.pop();
     cout<<reversed<<endl;
     string isNot = reversed == normalized ? " is " : " is not ";
     cout<<line<<isNot<<"a palindrome"<<endl;
+
 }
 
 

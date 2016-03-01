@@ -20,10 +20,10 @@ public:
     LinkedListStack(size_t size = 10);
     ~LinkedListStack();
     LinkedListStack(const LinkedListStack<T>&other);
-    LinkedListStack<T>& operator = (const LinkedListStack<T> &other);
+    LinkedListStack<T>& operator= (const LinkedListStack<T> &other);
 
-    LinkedListStack<T>& operator <<(const T& d); //Push chainable
-    LinkedListStack<T>& operator >>(T &d);       //Pop chainable
+    LinkedListStack<T>& operator<<(const T& d); //Push chainable
+    LinkedListStack<T>& operator>>(T &d);       //Pop chainable
 
     T pop();                      //pops out the first element
     T top();                      //looks at the top element
@@ -42,6 +42,7 @@ public:
     friend
     istream& operator>>(istream &in, LinkedListStack<Y> &stack);
 
+
 private:
     void copy(const LinkedListStack<T>& other);
     void nukem();
@@ -57,17 +58,18 @@ LinkedListStack<T>::LinkedListStack(size_t size)
 template<typename T>
 LinkedListStack<T>::~LinkedListStack()
 {
-   nukem();
+    nukem();
 }
 
 template<typename T>
 LinkedListStack<T>::LinkedListStack(const LinkedListStack<T> &other)
 {
-    copy (other);
+    anchor = new baseNode;
+    copy(other);
 }
 
 template<typename T>
-LinkedListStack<T>& LinkedListStack<T>::operator = (const LinkedListStack<T> &other)
+LinkedListStack<T>& LinkedListStack<T>::operator= (const LinkedListStack<T> &other)
 {
     if (this != &other)
     {
@@ -77,14 +79,14 @@ LinkedListStack<T>& LinkedListStack<T>::operator = (const LinkedListStack<T> &ot
     return *this;
 }
 template<typename T>
-LinkedListStack<T>& LinkedListStack<T>::operator <<(const T& d) //Push chainable
+LinkedListStack<T>& LinkedListStack<T>::operator<<(const T& d) //Push chainable
 {
-   push(d);
-   return *this;
+    push(d);
+    return *this;
 }
 
 template<typename T>
-LinkedListStack<T>& LinkedListStack<T>::operator >>(T &d)       //Pop chainable
+LinkedListStack<T>& LinkedListStack<T>::operator>>(T &d)       //Pop chainable
 {
     d = pop();
     return *this;
@@ -97,7 +99,7 @@ T LinkedListStack<T>::pop()                      //pops out the first element
         throw STACK_EMPTY;
     baseNode *ptr = anchor->nextNode();
     //for (; ptr->nextNode(); ptr = ptr->nextNode()); //Use this for queue
-    T data = *(T*)(ptr->getFirst());
+    T data = *(T*)(ptr->getData());
     //linkedList::eraseHead();
     linkedList::erase(ptr);
     return data;
@@ -110,7 +112,7 @@ T LinkedListStack<T>::top()                     //looks at the top element
         throw STACK_EMPTY;
     baseNode *ptr = anchor->nextNode();
     //for (;ptr->nextNode(); ptr = ptr->nextNode());
-    T data = *(T*)(ptr->getFirst());
+    T data = *(T*)(ptr->getData());
     return data;
 }
 
@@ -118,9 +120,9 @@ template<typename T>
 void LinkedListStack<T>::push(const T& d)        //push elements into the array
 {
     if (!(qty-maxQty))
-        throw STACK_EMPTY;
+        throw STACK_FULL;
     baseNode* ptr = new baseNode();
-    ptr->setFirst(new T(d));
+    ptr->setData(new T(d));
     linkedList::insertHead(ptr);
 }
 
@@ -170,20 +172,24 @@ void  LinkedListStack<T>::nukem()                //clears the stack
 template<typename T>
 void LinkedListStack<T>::copy(const LinkedListStack<T>& other)
 {
-    qty = other.qty;
+    for(baseNode *ptr = other.anchor->nextNode(); ptr; ptr = ptr->nextNode())
+    {
+        push(*(T*)(ptr->getData()));
+    }
+    qty = other.qty;            //have to put the variables in the bottom or it would output errors.
     maxQty = other.maxQty;
-    for(baseNode *ptr = other.anchor; ptr; ptr = ptr->nextNode())
-        push(ptr->getFirst());
- }
+}
 
 //friends
 template<typename Y>
 ostream& operator<<(ostream &out, const LinkedListStack<Y> &stack)
 {
+    if (!stack.qty)
+        throw STACK_EMPTY;
     baseNode *ptr = stack.anchor->nextNode();
     while(ptr)
     {
-        out<<*(Y*)(ptr->getFirst())<<std::endl;
+        out<<*(Y*)(ptr->getData())<<std::endl;
         ptr = ptr->nextNode();
     }
     return out;
@@ -192,9 +198,11 @@ ostream& operator<<(ostream &out, const LinkedListStack<Y> &stack)
 template<typename Y>
 istream& operator>>(istream &in, LinkedListStack<Y> &stack)
 {
+    if (!(stack.qty-stack.maxQty))
+        throw STACK_FULL;
     baseNode ptr;
     while(in>>ptr)
-        stack.push(*(Y*)ptr.getFirst());
+        stack.push(*(Y*)ptr.getData());
     return in;
 }
 
