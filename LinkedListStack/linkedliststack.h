@@ -162,6 +162,7 @@ void  LinkedListStack<T>::nukem()                //clears the stack
     while(ptr->nextNode())
     {
         bye = ptr->nextNode();
+        bye->setData(new T());
         ptr = ptr->nextNode();
         delete bye;
     }
@@ -184,8 +185,6 @@ void LinkedListStack<T>::copy(const LinkedListStack<T>& other)
 template<typename Y>
 ostream& operator<<(ostream &out, const LinkedListStack<Y> &stack)
 {
-    if (!stack.qty)
-        throw STACK_EMPTY;
     baseNode *ptr = stack.anchor->nextNode();
     while(ptr)
     {
@@ -198,8 +197,6 @@ ostream& operator<<(ostream &out, const LinkedListStack<Y> &stack)
 template<typename Y>
 istream& operator>>(istream &in, LinkedListStack<Y> &stack)
 {
-    if (!(stack.qty-stack.maxQty))
-        throw STACK_FULL;
     baseNode ptr;
     while(in>>ptr)
         stack.push(*(Y*)ptr.getData());

@@ -59,7 +59,7 @@ LinkedListQueue<T>::LinkedListQueue(size_t size)
 template<typename T>
 LinkedListQueue<T>::~LinkedListQueue()
 {
-   nukem();
+    nukem();
 }
 
 template<typename T>
@@ -157,15 +157,15 @@ size_t LinkedListQueue<T>::max_size()
 template<typename T>
 void  LinkedListQueue<T>::nukem()                //clears the stack
 {
-    baseNode *ptr = anchor, *bye;
+    baseNode *ptr = anchor, *bye = NULL;
     while(ptr->nextNode())
     {
         bye = ptr->nextNode();
+        bye->setData(T());
         ptr = ptr->nextNode();
         delete bye;
     }
     anchor->nextNode() = NULL;
-    delete anchor->nextNode();
     qty = 0;
 }
 

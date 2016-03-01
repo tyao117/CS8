@@ -14,7 +14,7 @@ linkedList::~linkedList()
     while(ptr->nextNode())
     {
         bye = ptr->nextNode();
-        ptr = ptr->nextNode();
+        ptr = ptr->nextNode()->nextNode();
         delete bye;
     }
     anchor->nextNode() = NULL;

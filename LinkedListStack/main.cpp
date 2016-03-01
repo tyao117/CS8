@@ -33,15 +33,11 @@ void perform(string line)
         stack<<normalized[i];
     cout<<stack;
     cout<<"stack size="<<stack.size()<<endl;
-    LinkedListStack<char> stack2(stack);
-
-    cout<<stack2;
     while(!stack.empty())
         reversed += stack.pop();
     cout<<reversed<<endl;
     string isNot = reversed == normalized ? " is " : " is not ";
     cout<<line<<isNot<<"a palindrome"<<endl;
-
 }
 
 
