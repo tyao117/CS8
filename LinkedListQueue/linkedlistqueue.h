@@ -46,6 +46,16 @@ public:
     friend
     istream& operator>>(istream &in, LinkedListQueue<Y> &stack);
 
+    friend
+    istream& operator>>(istream &in, LinkedListQueue<string> &stack)//specialization for strings
+    {
+        using namespace std;
+        string data;
+        getline(in,data);
+        stack.push(data);
+        return in;
+    }
+
 private:
     void copy(const LinkedListQueue<T>& other);
     void nukem();
@@ -218,16 +228,5 @@ istream& operator>>(istream &in, LinkedListQueue<Y> &stack)
     stack.push(data);
     return in;
 }
-
-istream& operator>>(istream &in, LinkedListQueue<string> &stack)
-{
-    using namespace std;
-    string data;
-    getline(in,data);
-    stack.push(data);
-    return in;
-}
-
-
 
 #endif // LinkedListQueue_H
