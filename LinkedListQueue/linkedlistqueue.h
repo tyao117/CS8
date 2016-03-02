@@ -40,15 +40,11 @@ public:
 
     template<typename Y>
     friend
-    ostream& operator<<(ostream &out, const LinkedListQueue<Y> &queue);
-
-//    template<typename Y>
-//    friend
-//    istream& operator>>(istream &in, LinkedListQueue<string> &queue);
+    ostream& operator<<(ostream &out, const LinkedListQueue<Y> &stack);
 
     template<typename Y>
     friend
-    istream& operator>>(istream &in, LinkedListQueue<Y> &queue);
+    istream& operator>>(istream &in, LinkedListQueue<Y> &stack);
 
 private:
     void copy(const LinkedListQueue<T>& other);
@@ -187,15 +183,6 @@ void  LinkedListQueue<T>::nukem()                //clears the stack
     }
     anchor->nextNode() = NULL;
     qty = 0;
-//    baseNode *ptr = anchor, *bye = NULL;
-//    while(ptr->nextNode())
-//    {
-//        bye = ptr->nextNode();
-//        ptr = ptr->nextNode();
-//        delete bye;
-//    }
-//    anchor->nextNode() = NULL;
-//    qty = 0;
 }
 
 template<typename T>
@@ -211,9 +198,9 @@ void LinkedListQueue<T>::copy(const LinkedListQueue<T>& other)
 
 //friends
 template<typename Y>
-ostream& operator<<(ostream &out, const LinkedListQueue<Y> &queue)
+ostream& operator<<(ostream &out, const LinkedListQueue<Y> &stack)
 {
-    baseNode *ptr = queue.anchor->nextNode();
+    baseNode *ptr = stack.anchor->nextNode();
     while(ptr)
     {
         out<<"item="<<*(Y*)(ptr->getData())<<std::endl;
@@ -223,24 +210,24 @@ ostream& operator<<(ostream &out, const LinkedListQueue<Y> &queue)
 }
 
 template<typename Y>
-istream& operator>>(istream &in, LinkedListQueue<Y> &queue)
+istream& operator>>(istream &in, LinkedListQueue<Y> &stack)
 {
     cout<<"Not Calling String insertion"<<endl;
     Y data;
     in>>data;
-    queue.push(data);
+    stack.push(data);
     return in;
 }
 
-//template<typename Y>
-//istream& operator>>(istream &in, LinkedListQueue<string> &queue)
-//{
-//    using namespace std;
-//    cout<<"calling string insertion"<<endl;
-//    string input;
-//    getline(in,input);
-//    queue.push(input);
-//    return in;
-//}
+istream& operator>>(istream &in, LinkedListQueue<string> &stack)
+{
+    using namespace std;
+    string data;
+    getline(in,data);
+    stack.push(data);
+    return in;
+}
+
+
 
 #endif // LinkedListQueue_H

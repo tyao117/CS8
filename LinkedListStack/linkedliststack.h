@@ -14,6 +14,7 @@ using std::istream;
 using std::ostream;
 using std::cout;
 using std::endl;
+using std::string;
 
 template<typename T>
 class LinkedListStack : public linkedList
@@ -189,7 +190,7 @@ ostream& operator<<(ostream &out, const LinkedListStack<Y> &stack)
     baseNode *ptr = stack.anchor->nextNode();
     while(ptr)
     {
-        out<<*(Y*)(ptr->getData())<<std::endl;
+        out<<"item="<<*(Y*)(ptr->getData())<<std::endl;
         ptr = ptr->nextNode();
     }
     return out;
@@ -201,6 +202,15 @@ istream& operator>>(istream &in, LinkedListStack<Y> &stack)
     cout<<"Not Calling String insertion"<<endl;
     Y data;
     in>>data;
+    stack.push(data);
+    return in;
+}
+
+istream& operator>>(istream &in, LinkedListStack<string> &stack)
+{
+    using namespace std;
+    string data;
+    getline(in,data);
     stack.push(data);
     return in;
 }
