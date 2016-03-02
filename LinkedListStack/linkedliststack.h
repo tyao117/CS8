@@ -12,6 +12,8 @@ enum STACK_ERRORS {STACK_EMPTY,STACK_FULL};
 
 using std::istream;
 using std::ostream;
+using std::cout;
+using std::endl;
 
 template<typename T>
 class LinkedListStack : public linkedList
@@ -162,7 +164,6 @@ void  LinkedListStack<T>::nukem()                //clears the stack
     while(ptr)
     {
         bye = ptr;
-        bye->setData(new T());
         ptr = ptr->nextNode();
         delete bye;
     }
@@ -197,9 +198,10 @@ ostream& operator<<(ostream &out, const LinkedListStack<Y> &stack)
 template<typename Y>
 istream& operator>>(istream &in, LinkedListStack<Y> &stack)
 {
-    baseNode ptr;
-    while(in>>ptr)
-        stack.push(*(Y*)ptr.getData());
+    cout<<"Not Calling String insertion"<<endl;
+    Y data;
+    in>>data;
+    stack.push(data);
     return in;
 }
 

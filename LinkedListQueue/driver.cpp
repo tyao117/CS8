@@ -77,9 +77,8 @@ void perform(char ans, int &que, LinkedListQueue<string> &one, LinkedListQueue<s
            cout<<"The contents of queue two are: "<<endl<<two<<endl<<endl;
        break;
    case '+' : cout<<"What is the item that you want to enqueue? ";
-       cin>>item;
-       if(que == 1) one << item;
-       else two << item;
+       if(que == 1) cin>>one;
+       else cin>>two;
        break;
    case 'M' : cout<<"Putting two into one.";
        while(!two.empty())
@@ -91,6 +90,18 @@ void perform(char ans, int &que, LinkedListQueue<string> &one, LinkedListQueue<s
        one = two;
        cout<<"The contents of queue one are: "<<endl<<one<<endl<<endl;
        cout<<"The contents of queue two are: "<<endl<<two<<endl<<endl;
+       break;
+   case 'B' : cout<<"Looking at the back of the queue"<<endl;
+       if(que == 1)
+       {
+           item = one.back();
+           cout<<"data1="<<one.back()<<endl;
+       }
+           else
+       {
+           item = two.back();
+           cout<<"data2="<<two.back()<<endl;
+       }
        break;
    case '-' :
        if(que == 1) one >> item;

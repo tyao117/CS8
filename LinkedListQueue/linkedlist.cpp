@@ -18,7 +18,6 @@ linkedList::~linkedList()
         ptr = ptr->nextNode();
         delete bye;
     }
-    anchor->nextNode() = NULL;
     qty = 0;
 }
 

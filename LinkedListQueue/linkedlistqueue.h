@@ -13,7 +13,8 @@ enum QUEUE_ERRORS {QUEUE_EMPTY,QUEUE_FULL};
 using std::istream;
 using std::ostream;
 using std::string;
-
+using std::cout;
+using std::endl;
 
 template<typename T>
 class LinkedListQueue : public linkedList
@@ -27,8 +28,9 @@ public:
     LinkedListQueue<T>& operator<<(const T& d); //Push chainable
     LinkedListQueue<T>& operator>>(T &d);       //Pop chainable
 
-    T dequeue();                      //pops out the first element
+    T dequeue();                  //pops out the first element
     T top();                      //looks at the top element
+    T back();                     //looks at the last element
     void push(const T& d);        //push elements into the array
     bool full();                  //checks if the stack is full
     bool empty();                 //check if the stack is empty
@@ -39,6 +41,10 @@ public:
     template<typename Y>
     friend
     ostream& operator<<(ostream &out, const LinkedListQueue<Y> &queue);
+
+//    template<typename Y>
+//    friend
+//    istream& operator>>(istream &in, LinkedListQueue<string> &queue);
 
     template<typename Y>
     friend
@@ -116,13 +122,28 @@ T LinkedListQueue<T>::top()                     //looks at the top element
 }
 
 template<typename T>
+T LinkedListQueue<T>::back()                     //looks at the top element
+{
+    if (empty())
+        throw QUEUE_EMPTY;
+    baseNode *ptr = anchor->nextNode();
+    for (;ptr->nextNode(); ptr = ptr->nextNode());
+    T data = *(T*)(ptr->getData());
+    return data;
+}
+
+
+template<typename T>
 void LinkedListQueue<T>::push(const T& d)        //push elements into the array
 {
     if (!(qty-maxQty))
         throw QUEUE_EMPTY;
     baseNode* ptr = new baseNode();
+
     ptr->setData(new T(d));
+
     linkedList::insertTail(ptr);
+
 }
 
 template<typename T>
@@ -157,16 +178,24 @@ size_t LinkedListQueue<T>::max_size()
 template<typename T>
 void  LinkedListQueue<T>::nukem()                //clears the stack
 {
-    baseNode *ptr = anchor, *bye = NULL;
-    while(ptr->nextNode())
+    baseNode *ptr = anchor->nextNode(), *bye = NULL;
+    while(ptr)
     {
-        bye = ptr->nextNode();
-        bye->setData(new T());
+        bye = ptr;
         ptr = ptr->nextNode();
         delete bye;
     }
     anchor->nextNode() = NULL;
     qty = 0;
+//    baseNode *ptr = anchor, *bye = NULL;
+//    while(ptr->nextNode())
+//    {
+//        bye = ptr->nextNode();
+//        ptr = ptr->nextNode();
+//        delete bye;
+//    }
+//    anchor->nextNode() = NULL;
+//    qty = 0;
 }
 
 template<typename T>
@@ -187,7 +216,7 @@ ostream& operator<<(ostream &out, const LinkedListQueue<Y> &queue)
     baseNode *ptr = queue.anchor->nextNode();
     while(ptr)
     {
-        out<<*(Y*)(ptr->getData())<<std::endl;
+        out<<"item="<<*(Y*)(ptr->getData())<<std::endl;
         ptr = ptr->nextNode();
     }
     return out;
@@ -196,11 +225,22 @@ ostream& operator<<(ostream &out, const LinkedListQueue<Y> &queue)
 template<typename Y>
 istream& operator>>(istream &in, LinkedListQueue<Y> &queue)
 {
-    baseNode ptr;
-    while(in>>ptr)
-        queue.push(*(Y*)ptr.getData());
+    cout<<"Not Calling String insertion"<<endl;
+    Y data;
+    in>>data;
+    queue.push(data);
     return in;
 }
 
+//template<typename Y>
+//istream& operator>>(istream &in, LinkedListQueue<string> &queue)
+//{
+//    using namespace std;
+//    cout<<"calling string insertion"<<endl;
+//    string input;
+//    getline(in,input);
+//    queue.push(input);
+//    return in;
+//}
 
 #endif // LinkedListQueue_H

@@ -7,6 +7,8 @@ using namespace std;
 int main(int argc, char *argv[])
 {
   LinkedListQueue<string> one, two;
+  cout << "Input one: " << endl;
+
   char ans;
   int list = 1;
   string title[13] = {
@@ -19,6 +21,7 @@ int main(int argc, char *argv[])
       "  - : Dequeue an item",
       "  M : Merge List 2 into List 1",
       "  C : Make List 1 into List 2",
+      "  B : Look at the back of the queue",
       "  Q : Quit",
       "Your selection: "};
   system("cls");
