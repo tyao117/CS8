@@ -44,17 +44,11 @@ public:
 
     template<typename Y>
     friend
-    istream& operator>>(istream &in, LinkedListQueue<Y> &stack);
+    istream& operator>>(istream &in, LinkedListQueue<Y> &stack);//specialization for strings
 
+    template<typename Y>
     friend
-    istream& operator>>(istream &in, LinkedListQueue<string> &stack)//specialization for strings
-    {
-        using namespace std;
-        string data;
-        getline(in,data);
-        stack.push(data);
-        return in;
-    }
+    istream& operator>>(istream &in, LinkedListQueue<Y> &stack);
 
 private:
     void copy(const LinkedListQueue<T>& other);
@@ -219,12 +213,21 @@ ostream& operator<<(ostream &out, const LinkedListQueue<Y> &stack)
     return out;
 }
 
+using namespace std;
 template<typename Y>
 istream& operator>>(istream &in, LinkedListQueue<Y> &stack)
 {
-    cout<<"Not Calling String insertion"<<endl;
     Y data;
     in>>data;
+    stack.push(data);
+    return in;
+}
+
+template<typename Y>
+istream& operator>>(istream &in, LinkedListQueue<string> &stack)//specialization for strings
+{
+    string data;
+    std::getline(in,data);
     stack.push(data);
     return in;
 }
