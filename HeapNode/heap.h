@@ -22,6 +22,11 @@ struct node
         child[0] = child[1] = NULL;
     }
 
+    node(const node &other)
+    {
+        data = other.data;
+        child[0] = child[1] = NULL;
+    }
 
     ~node()
     {
@@ -173,7 +178,7 @@ void heap<T>::copy(heap<T> *r, heap<T> *&myR)
 {
     if(!r)
        return;
-    myR = new node<T>*(r->data);\
+    myR = new node<T>(r->root);
     for(size_t i = 0; i < 2; ++i)
         if(r->child[i])
             copy(r->child[i], myR->child[i]);

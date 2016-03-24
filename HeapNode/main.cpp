@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
         cout<<setw(5)<<theRandNum;
         theHeap << theRandNum;
     }
+    cout<<"The Heap contains: \n"<<theHeap<< endl;
     int count = 0;
     cout<<endl<<"\n\nsorted: "<<endl;
     while(!theHeap.empty())
