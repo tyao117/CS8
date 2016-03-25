@@ -147,7 +147,8 @@ void bst<T>::insert(const T &d, size_t c)
                     temp = temp->childPtr(child);
             }
     }
-
+    if (balanced())
+        rebalance();
 }
 
 template<typename T>
@@ -272,6 +273,7 @@ void bst<T>::rebalance()
       Note: This algorithm is designed to work on linked-lists.
       There is a version that will work with array-based trees.
     */
+    cout<<endl<<"rebalance checked"<<endl;
     size_t count = totalNodes();
     root = createRightVine(root);
     root = balanceVine(root,count);
@@ -295,7 +297,7 @@ void bst<T>::copy(node<T> *r)
 {
     if(!r)
         return;
-    insert(r->getData(),r->getCount());
+    insert(r->getData(), r->getCount());
     copy(r->getChildPtr(LEFT));
     copy(r->getChildPtr(RIGHT));
 }
@@ -345,14 +347,13 @@ void bst<T>::postOrder(node<T>* r, ostream &out) const
 template<typename T>
 size_t bst<T>::depth(node<T> *r)
 {
-
-    return !r ? 0 : 1 + max(depth(r->childPtr(LEFT)) , depth(r->childPtr(RIGHT)));
+    return !r ? 0 : 1 + max(depth(r->childPtr(LEFT)), depth(r->childPtr(RIGHT)));
 }
 
 template<typename T>
 bool bst<T>::balanced(node<T> *r)
 {
-    return abs((double)depth(r->childPtr(LEFT)) - depth(r->childPtr(RIGHT))) <= 1;
+    return abs((double)(depth(r->childPtr(LEFT)) - (double)depth(r->childPtr(RIGHT)))) <= 1;
 }
 
 
@@ -452,7 +453,7 @@ node<T>* bst<T>::balanceVine(node<T>* r, size_t nodeCount)
 {
     node<T>* newRoot = r;
     size_t FullTreeCount = 1;
-    for(int i = 1; nodeCount > pow(2, i) - 1;FullTreeCount = pow(2, i++) - 1);
+    for(int i = 1; nodeCount > pow(2., i) - 1; FullTreeCount = pow(2., i++) - 1);
      size_t times = log2(FullTreeCount);
 
     newRoot = leftRotate(newRoot);

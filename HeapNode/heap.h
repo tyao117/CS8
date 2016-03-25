@@ -22,11 +22,18 @@ struct node
         child[0] = child[1] = NULL;
     }
 
-    node(const node &other)
+    node(const node<T> &other)
     {
         data = other.data;
         child[0] = child[1] = NULL;
     }
+
+    node<T> operator = (const node<T> &other)
+    {
+        data = other.data;
+        child[0] = child[1] = NULL;
+    }
+
 
     ~node()
     {
@@ -64,7 +71,7 @@ class heap
         node<T> *root;
         size_t lastEntered;
 
-        void copy(heap<T> *r, heap<T> *&myR);
+        void copy(node<T> *r, node<T> *&myR);
 
         node<T>* findParent(size_t n);
         void reheapifyUp();
@@ -174,14 +181,20 @@ heap<T>& heap<T>::operator>>(T &data)
 }
 
 template<typename T>
-void heap<T>::copy(heap<T> *r, heap<T> *&myR)
+void heap<T>::copy(node<T> *r, node<T> *&myR)
 {
     if(!r)
-       return;
-    myR = new node<T>(r->root);
+    {
+        cout<<"returning"<<endl;
+        return;
+    }
+    myR = new node<T>(r->data);
     for(size_t i = 0; i < 2; ++i)
         if(r->child[i])
+        {
             copy(r->child[i], myR->child[i]);
+        }
+    return;
 }
 
 template<typename T>
