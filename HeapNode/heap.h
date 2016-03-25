@@ -187,11 +187,11 @@ heap<T>& heap<T>::operator>>(T &data)
 template<typename T>
 void heap<T>::copy(node<T> *r, node<T> *&myR)
 {
-    if(!r)
-    {
-        cout<<"returning"<<endl;
-        return;
-    }
+//    if(!r)
+//    {
+//        cout<<"returning"<<endl;
+//        return;
+//    }
     myR = new node<T>(r->data);
     for(size_t i = 0; i < 2; ++i)
         if(r->child[i])
