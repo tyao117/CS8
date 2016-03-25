@@ -5,6 +5,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <algorithm>
+#include <iomanip>
 
 using namespace std;
 
@@ -102,6 +103,7 @@ template<typename T>
 heap<T>::heap(const heap<T> &other)
 {
     copy(other.root, root);
+    lastEntered = other.lastEntered;
 }
 
 template<typename T>
@@ -111,6 +113,7 @@ heap<T>& heap<T>::operator=(const heap<T> &other)
     {
         clear();
         copy(other.root,root);
+        lastEntered = other.lastEntered;
     }
     return *this;
 }
@@ -164,6 +167,7 @@ heap<T>& heap<T>::operator>>(T &data)
     {
         delete root;
         root = NULL;
+        lastEntered--;
         return *this;
     }
 //    cout<<"Finding parent\n";
@@ -266,11 +270,15 @@ template<typename U>
 ostream& operator<<(ostream& out, const heap<U> &h)
 {
     heap<U> theCopy(h);
+    if (theCopy.empty())
+        throw HEAP_EMPTY;
     U data;
+    size_t count = 1;
     while(!theCopy.empty())
     {
         theCopy>>data;
-        out<<data;
+        out<<"data["<<count<<"]="<<setw(5)<<right<<data<<endl;
+        ++count;
     }
     return out;
 }
