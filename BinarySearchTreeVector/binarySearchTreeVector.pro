@@ -6,5 +6,6 @@ CONFIG -= qt
 SOURCES += main.cpp
 
 HEADERS += \
-    bstvector.h
+    bstvector.h \
+    node.h
 

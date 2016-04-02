@@ -8,13 +8,13 @@
 using namespace std;
 
 bool again();
-void menu(bstvector<char> tree[],int &toUse);
-void perform(bstvector<char> &myTree, char selection, int &touse);
+void menu(bst<char> tree[],int &toUse);
+void perform(bst<char> &myTree, char selection, int &touse);
 
 
 int main(int argc, char *argv[])
 {
-  bstvector<char> tree[MAXTREE];
+  bst<char> tree[MAXTREE];
   int touse=0;
   do
   {
@@ -32,7 +32,7 @@ bool again()
 }
 
 
-void perform(bstvector<char> tree[], char selection, int &touse)
+void perform(bst<char> tree[], char selection, int &touse)
 {
    char value;
    int order;
@@ -132,7 +132,7 @@ void perform(bstvector<char> tree[], char selection, int &touse)
 }
 
 
-void menu(bstvector<char> tree[], int &toUse)
+void menu(bst<char> tree[], int &toUse)
 {
   char selection;
   do
