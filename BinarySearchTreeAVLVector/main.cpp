@@ -96,6 +96,8 @@ void perform(bst<char> tree[], char selection, int &touse)
                             break;
                     case 3: tree[touse].setTraversal(POST_ORDER);
                             break;
+                    case 4: tree[touse].setTraversal(LEVEL_ORDER);
+                            break;
                 }
                 break;
 
