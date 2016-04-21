@@ -193,15 +193,14 @@ size_t node<T>::getCount() const
 template<typename T>
 int node<T>::operator++(int)
 {
-    count++;
-    return count;
+    return ++count;
 }
 
 template<typename T>
 int node<T>::operator++()
 {
     size_t temp = count;
-    count++;
+    --count;
     return temp;
 }
 template<typename T>

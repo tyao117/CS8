@@ -33,31 +33,36 @@ using std::max;
 template<typename T>
 struct node
 {
+    unsigned int count;
     T data;
-    size_t count;
+    unsigned int height;
 
     node()
     {
         data = T();
         count = 0;
+        height = 1;
     }
 
     node(T d = T())
     {
         data = d;
         count = 1;
+        height = 1;
     }
 
     node(T d = T(), size_t c = 1)
     {
         data = d;
         count = c;
+        height = 1;
     }
 
     node(const node<T> &other)
     {
         data = other.data;
         count = other.count;
+        height = other.height;
     }
 
     node<T> operator = (const node<T> &other)
@@ -66,12 +71,14 @@ struct node
         {
             data = other.data;
             count = other.count;
+            height = other.height;
         }
     }
     ~node()
     {
         data = T();
         count = 0;
+        height = 0;
     }
 };
 
@@ -125,6 +132,7 @@ class bst
         void insert(const T &d, size_t c, size_t r);
         void reattachRightChildren(size_t to, size_t from);
         void shiftSubtree(size_t to, size_t from);
+        void shiftSubtreeDown(size_t to, size_t from);
         void nukem(size_t index);
         void inOrder(size_t index, ostream &out) const;
         bst<T> inOrder(size_t index) const;
@@ -133,7 +141,6 @@ class bst
         void levelOrder(size_t index, ostream &out) const;
         size_t depth(size_t index);
         bool balanced(size_t index);
-        void rebalance(node<T> *r);
         size_t theMost(size_t index, WHICH_CHILD child) const;
         node<T>* findParent(node<T> *r, T d);
         void initialize(node<T> *n, BST_TRAVERSAL_TYPES  t );
@@ -142,6 +149,12 @@ class bst
         void setMid(bst<T> sorted, size_t pos, size_t start, size_t end);
         void balanceTree(bst<T> sorted, size_t count);
         size_t findIndex(const T &d, size_t index);
+        bool AVLrebalance(size_t index);
+        int weighedBalanced(size_t index);
+        void rightRotate(size_t index);
+        void leftRotate(size_t index);
+        void LRRotate(size_t index);
+        void RLRotate(size_t index);
 };
 
 template<typename T>
@@ -204,7 +217,6 @@ void bst<T>::insert(const T &d, size_t c, size_t r)
     {
         v[r] = new node<T>(d,c);
         v.resize(pow(2, depth() + 1) - 1);
-//        v.resize(2 * v.size() + 1);
     }
     else
     {
@@ -224,7 +236,6 @@ void bst<T>::insert(const T &d, size_t c, size_t r)
                     if(leftChild(insertPos) > v.size())
                     {
                         v.resize(pow(2, depth() + 1) - 1);
-//                        v.resize(2 * v.size() + 1);
                     }
                     break;
                 }
@@ -317,10 +328,25 @@ void bst<T>::shiftSubtree(size_t to, size_t from)
     {
         return;
     }
-    insert(v[from]->data, v[from]->count, to);
-    v[from] = 0;
+    v[to] = v[from];
+    v[from] = NULL;
     shiftSubtree(leftChild(to), leftChild(from));
     shiftSubtree(rightChild(to), rightChild(from));
+    v.resize(pow(2, depth() + 1) - 1);
+}
+
+template<typename T>
+void bst<T>::shiftSubtreeDown(size_t to, size_t from)
+{
+    if (!v[from])
+    {
+        return;
+    }
+    shiftSubtreeDown(leftChild(to), leftChild(from));
+    shiftSubtreeDown(rightChild(to), rightChild(from));
+    v[to] = v[from];
+    v[from] = NULL;
+    v.resize(pow(2, depth() + 1) - 1);
 }
 
 template<typename T>
@@ -372,9 +398,9 @@ void bst<T>::rebalance()
 {
     size_t count = totalNodes();
     bst<T> temp;
-//    temp.resize(v.size());
+    temp.v.resize(v.size());
     temp = inOrder(0);
-    clear();
+    v.clear();
     balanceTree(temp, count);
 }
 
@@ -508,7 +534,7 @@ bool bst<T>::balanced(size_t index)
     {
         return true;
     }
-    return abs((double)depth(leftChild(index)) - depth(rightChild(index))) <= 1 && balanced(leftChild(index)) && balanced(rightChild(index));
+    return ((double)depth(leftChild(index)) - depth(rightChild(index))) <= 1 && balanced(leftChild(index)) && balanced(rightChild(index));
 }
 
 template<typename T>
@@ -523,9 +549,9 @@ size_t bst<T>::theMost(size_t index, WHICH_CHILD child) const
 template<typename T>
 node<T>* bst<T>::findParent(node<T> *r, T d)
 {
-    return !r ? NULL :
-               r->childPtr(LEFT) && r->childPtr(LEFT)->data == d || r->childPtr(RIGHT) && r->childPtr(RIGHT)->data == d ? r
-             : findParent(r->childPtr(direction[d < r->data]),d);
+    return !r ? NULL
+              : (r->childPtr(LEFT) && r->childPtr(LEFT)->data == d) || (r->childPtr(RIGHT) && r->childPtr(RIGHT)->data == d)
+              ? r : findParent(r->childPtr(direction[d < r->data]),d);
 }
 
 template<typename T>
@@ -545,6 +571,7 @@ template<typename T>
 void bst<T>::initialize(node<T> *n, BST_TRAVERSAL_TYPES  t )
 {
     v.resize(1);
+    v.reserve(1000);
     if(n)
     {
         v[0] = n;
@@ -604,6 +631,81 @@ size_t bst<T>::findIndex(const T &d, size_t index)
     }
     return findIndex(d, leftChild(index) + !direction[d < v[index]->data]);
 }
+//New Functions
+template<typename T>
+int bst<T>::weighedBalanced(size_t index)
+{
+    if(v.size() - 1 < index || v[index])
+        return 0;
+    int unbalance = 0;
+    int temp = 0;
+    unbalance = (temp = depth(leftChild(index)) - depth(rightChild(index))) > 1 ? 1 : temp < -1 ? -1 :0;
+    if (!unbalance)
+        unbalance = weighedBalanced(leftChild(index)) + weighedBalanced(rightChild(index));
+    return unbalance;
+}
+
+template<typename T>
+bool bst<T>::AVLrebalance(size_t index)
+{
+    int unbalance = 0;
+    if (v[index])
+    {
+        unbalance = weighedBalanced(index);
+        //if (unbalance > 0)
+            switch (unbalance)
+            {
+                case 2:
+                {
+                    if (depth(rightChild(leftChild(index))) > depth(leftChild(leftChild(index))))
+                        LRRotate(index);
+                    else
+                        rightRotate(index);
+                    break;
+                }
+                    //else if (unbalance < 0)
+                case -2:
+                {
+                    if (depth(leftChild(rightChild(index))) > depth(rightChild(rightChild(index))))
+                        RLRotate(index);
+                    else
+                        leftRotate(index);
+                    break;
+                }
+            }
+        if (index && !AVLrebalance(((--index)>>1)) )
+        {
+            v.resize(pow(2.,depth() + 1) - 1);
+            return true;
+        }
+    }
+    return false;
+}
+
+template<typename T>
+void bst<T>::rightRotate(size_t index)
+{
+    if (v[leftChild(index)]);
+}
+
+template<typename T>
+void bst<T>::leftRotate(size_t index)
+{
+
+}
+
+template<typename T>
+void bst<T>::LRRotate(size_t index)
+{
+
+}
+
+template<typename T>
+void bst<T>::RLRotate(size_t index)
+{
+
+}
+
 
 template<typename T>
 ostream& bst<T>::print(ostream &out) const
@@ -611,6 +713,7 @@ ostream& bst<T>::print(ostream &out) const
    (this->*whatToDo[traverse])(0, out);
     return out;
 }
+
 
 template<typename U>
 ostream& operator<<(ostream& out, const bst<U> &other)

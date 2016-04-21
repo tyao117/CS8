@@ -156,7 +156,7 @@ heap<T>& heap<T>::operator<<(const T & data)
     return *this;
 }
 
-template<typename T>
+template<typename T> //inserting into the data
 heap<T>& heap<T>::operator>>(T &data)
 {
     if(empty())
