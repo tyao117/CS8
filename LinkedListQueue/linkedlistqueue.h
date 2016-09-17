@@ -48,7 +48,7 @@ public:
 
     template<typename Y>
     friend
-    istream& operator>>(istream &in, LinkedListQueue<Y> &stack);
+    istream& operator>>(istream &in, LinkedListQueue<string> &stack);
 
 private:
     void copy(const LinkedListQueue<T>& other);
@@ -139,9 +139,7 @@ void LinkedListQueue<T>::push(const T& d)        //push elements into the array
     if (!(qty-maxQty))
         throw QUEUE_EMPTY;
     baseNode* ptr = new baseNode();
-
     ptr->setData(new T(d));
-
     linkedList::insertTail(ptr);
 
 }
@@ -213,7 +211,6 @@ ostream& operator<<(ostream &out, const LinkedListQueue<Y> &stack)
     return out;
 }
 
-using namespace std;
 template<typename Y>
 istream& operator>>(istream &in, LinkedListQueue<Y> &stack)
 {
