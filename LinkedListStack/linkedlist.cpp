@@ -66,17 +66,6 @@ void linkedList::insertHead(baseNode *&whom)
 
 void linkedList::erase(baseNode *whom)// whom = object
 {
-//    //Original Version
-//    baseNode *ptr = anchor, *bye;
-//    qty--;
-//    for(; ptr->nextNode() && ptr->nextNode()->getData() != ((baseNode*)whom)->getData(); ptr = ptr->nextNode());
-//    if(!ptr->nextNode() || ptr->nextNode()->getData() != whom)
-//        //throw NOT_FOUND;
-//    bye = ptr->nextNode();
-//    ptr->nextNode() = bye->nextNode();
-//    delete bye;
-//    return;
-
     //  working erase
     baseNode *ptr = anchor, *bye = anchor->nextNode();
     qty--;
